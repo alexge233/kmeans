@@ -13,6 +13,8 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+#ifndef LABELS_H
+#define LABELS_H
 #pragma once
 #include <thrust/device_vector.h>
 #include <cfloat>
@@ -182,3 +184,4 @@ int relabel(int n, int k,
 
 }
 }
+#endif

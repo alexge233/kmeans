@@ -13,13 +13,17 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
-
+#ifndef CENTROIDS_H
+#define CENTROIDS_H
 #pragma once
 #include <thrust/device_vector.h>
 #include <thrust/sort.h>
 #include <thrust/fill.h>
 #include <thrust/iterator/counting_iterator.h>
 
+#if !defined(__CUDA_ARCH__) || __CUDA_ARCH__ >= 600
+    // Don't need `atomicAdd` for newer versions of CUDA
+#else
 __device__ double atomicAdd(double* address, double val)
 {
     unsigned long long int* address_as_ull =
@@ -33,6 +37,7 @@ __device__ double atomicAdd(double* address, double val)
     } while (assumed != old);
     return __longlong_as_double(old);
 }
+#endif
 
 namespace kmeans {
 namespace detail {
@@ -157,3 +162,4 @@ void find_centroids(int n, int d, int k,
 
 }
 }
+#endif
